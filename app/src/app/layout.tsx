@@ -21,9 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={`font-sans ${inter.variable}`}>
-        <Web3Provider>{children}</Web3Provider>
-      </body>
+      <Web3Provider>
+        <body className={`font-sans ${inter.variable}`}>{children}</body>
+      </Web3Provider>
     </html>
   );
 }

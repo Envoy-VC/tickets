@@ -2,11 +2,12 @@
 
 import React from 'react';
 
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
-import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector';
-import { MagicWalletConnectors } from '@dynamic-labs/magic';
-
-import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
+import {
+  DynamicContextProvider,
+  DynamicWagmiConnector,
+  MagicWalletConnectors,
+  EthereumWalletConnectors,
+} from '~/lib/dynamic';
 
 import { env } from '~/env';
 
