@@ -34,10 +34,11 @@ contract Ticket is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Pausable, O
         return tokenURI(tokenId);
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function mint(address to) public payable {
+        require(msg.value >= PRICE_PER_TOKEN, "Insufficient funds");
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+        _setTokenURI(tokenId, URI);
     }
 
     // Owner Actions
@@ -53,7 +54,7 @@ contract Ticket is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Pausable, O
         uint256 balance = address(this).balance;
         require(balance > 0, "No funds to withdraw");
 
-        (bool success,) = msg.sender.call{value: balance}("");
+        (bool success,) = owner().call{value: balance}("");
         require(success, "Transfer failed.");
         emit Withdraw(msg.sender, balance);
     }
