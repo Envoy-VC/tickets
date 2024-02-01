@@ -2,18 +2,24 @@
 
 import React from 'react';
 
-import { WagmiProvider } from 'wagmi';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
+import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector';
+import { MagicWalletConnectors } from '@dynamic-labs/magic';
 
-import { wagmiConfig } from '~/lib/config';
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
 
-const queryClient = new QueryClient();
+import { env } from '~/env';
 
 const Web3Provider = ({ children }: React.PropsWithChildren) => {
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </WagmiProvider>
+    <DynamicContextProvider
+      settings={{
+        environmentId: env.NEXT_PUBLIC_DYNAMIC_ID,
+        walletConnectors: [EthereumWalletConnectors, MagicWalletConnectors],
+      }}
+    >
+      <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
+    </DynamicContextProvider>
   );
 };
 
