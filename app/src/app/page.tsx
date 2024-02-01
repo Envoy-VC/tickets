@@ -1,20 +1,12 @@
-'use client';
-
 import React from 'react';
 
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
-
-import { useAccount } from 'wagmi';
+import { Hero } from './components';
 
 const Home = () => {
-  const { address } = useAccount();
   return (
-    <main>
-      <div>
-        <DynamicWidget />
-        {address}
-      </div>
-    </main>
+    <div className='mx-auto max-w-screen-2xl px-3'>
+      <Hero />
+    </div>
   );
 };
 

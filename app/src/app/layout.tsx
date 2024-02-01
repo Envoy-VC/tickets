@@ -1,12 +1,11 @@
 import '~/styles/globals.css';
 
-import { Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import { Web3Provider } from '~/providers';
+import Image from 'next/image';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
+import BGImage from '../styles/bg.avif';
+import Navbar from './components/navbar';
 
 export const metadata = {
   title: 'Create T3 App',
@@ -22,7 +21,19 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <Web3Provider>
-        <body className={`font-sans ${inter.variable}`}>{children}</body>
+        <body className={`font-sans ${GeistSans.variable} relative`}>
+          <main className='absolute top-0 w-full'>
+            <Navbar />
+            {children}
+          </main>
+          <Image
+            alt='Bg'
+            src={BGImage.src}
+            className='h-screen w-full'
+            width={100}
+            height={100}
+          />
+        </body>
       </Web3Provider>
     </html>
   );

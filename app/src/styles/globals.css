@@ -1,3 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hero-bg {
+  background: #4c1b73;
+  background: -webkit-linear-gradient(
+    to right,
+    #4c1b73 0%,
+    #7a48c2 34%,
+    #a658e8 78%,
+    #bd57ea 100%
+  );
+  background: -moz-linear-gradient(
+    to right,
+    #4c1b73 0%,
+    #7a48c2 34%,
+    #a658e8 78%,
+    #bd57ea 100%
+  );
+  background: linear-gradient(
+    to right,
+    #4c1b73 0%,
+    #7a48c2 34%,
+    #a658e8 78%,
+    #bd57ea 100%
+  );
+}
+
+.hero-text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-bg {
+  background: rgb(87, 37, 136);
+  background: -moz-linear-gradient(
+    45deg,
+    rgba(87, 37, 136, 1) 0%,
+    rgba(120, 69, 192, 1) 31%,
+    rgba(165, 90, 232, 1) 75%,
+    rgba(211, 92, 232, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    rgba(87, 37, 136, 1) 0%,
+    rgba(120, 69, 192, 1) 31%,
+    rgba(165, 90, 232, 1) 75%,
+    rgba(211, 92, 232, 1) 100%
+  );
+  background: linear-gradient(
+    45deg,
+    rgba(87, 37, 136, 1) 0%,
+    rgba(120, 69, 192, 1) 31%,
+    rgba(165, 90, 232, 1) 75%,
+    rgba(211, 92, 232, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#572588",endColorstr="#d35ce8",GradientType=1);
+}
+
+.rotate-3d {
+  transform: rotate3d(0.5, -0.866, 0, 15deg) rotate(1deg);
+  box-shadow:
+    2em 4em 6em -2em rgba(0, 0, 0, 0.5),
+    1em 2em 3.5em -2.5em rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+  border-radius: 0.5em;
+
+  &:hover {
+    transform: rotate3d(0, 0, 0, 0deg) rotate(0deg);
+  }
+}
