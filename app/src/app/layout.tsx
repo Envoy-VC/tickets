@@ -21,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <Web3Provider>
-        <body className={`font-sans ${GeistSans.variable} relative`}>
+        <body
+          className={`font-sans ${GeistSans.variable} relative select-none`}
+        >
           <main className='absolute top-0 w-full'>
             <Navbar />
             {children}
@@ -29,7 +31,7 @@ export default function RootLayout({
           <Image
             alt='Bg'
             src={BGImage.src}
-            className='h-screen w-full'
+            className='min-h-[100dvh] w-full'
             width={100}
             height={100}
           />
