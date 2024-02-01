@@ -11,22 +11,17 @@ import {Ticket} from "../../src/Ticket.sol";
 contract TicketFuzzTest is Test {
     Ticket public ticket;
     Vm.Wallet public owner;
-    Vm.Wallet public user;
 
     function setUp() public {
         owner = vm.createWallet("owner");
-        user = vm.createWallet("user");
-
         vm.deal(owner.addr, 100 ether);
-        vm.deal(user.addr, 100 ether);
 
         vm.startPrank(owner.addr);
         ticket = new Ticket(owner.addr, 1 ether, "https://example.com");
         vm.stopPrank();
     }
 
-    function testFuzz_mint(string memory seed) external {
-        Vm.Wallet memory wallet = vm.createWallet(seed);
+    function testFuzz_mint(Vm.Wallet memory wallet) external {
         vm.deal(wallet.addr, 100 ether);
 
         vm.startPrank(wallet.addr);
@@ -57,9 +52,10 @@ contract TicketFuzzTest is Test {
         assertEq(ticket.URI(), randomURI);
     }
 
-    function testFuzz_withdraw() external {
+    function testFuzz_withdraw(Vm.Wallet memory user) external {
         uint256 initialBalance = address(owner.addr).balance;
         vm.startPrank(user.addr);
+        vm.deal(user.addr, 1 ether);
         ticket.mint{value: ticket.PRICE_PER_TOKEN()}(user.addr);
         vm.stopPrank();
 
