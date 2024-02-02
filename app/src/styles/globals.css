@@ -72,3 +72,53 @@
     transform: rotate3d(0, 0, 0, 0deg) rotate(0deg);
   }
 }
+
+.Magic__formBody {
+  display: none !important;
+}
+
+.Magic__divider {
+  display: none !important;
+}
+
+/* add "sign in with google" text on id #MagicOauthgoogle */
+
+.Magic__oauthButtonsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 20px !important;
+  box-shadow:
+    0 0.75rem 1.25rem -0.375rem rgba(24, 39, 75, 0.02),
+    0 1rem 1.625rem -0.25rem rgba(24, 39, 75, 0.04);
+  border-radius: 14px;
+  transition: all;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: all;
+}
+
+.Magic__oauthButtonsContainer:hover {
+  box-shadow:
+    0 0.75rem 1.25rem -0.375rem rgba(24, 39, 75, 0.06),
+    0 1rem 1.625rem -0.25rem rgba(24, 39, 75, 0.08);
+}
+
+.Magic__oauthButtonIcon svg {
+  width: 1.5rem !important;
+}
+
+.Magic__oauthButton {
+  display: flex !important;
+  gap: 10px !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 20px !important;
+}
+
+#MagicOauthgoogle::after {
+  content: 'Continue with google';
+  font-weight: 500;
+}

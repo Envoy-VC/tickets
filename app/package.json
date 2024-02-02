@@ -10,12 +10,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "@dynamic-labs/ethereum": "^1.0.9",
-    "@dynamic-labs/magic": "^1.0.9",
-    "@dynamic-labs/sdk-react-core": "^1.0.9",
-    "@dynamic-labs/wagmi-connector": "^1.0.9",
+    "@magiclabs/wagmi-connector": "^1.1.5",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
+    "@rainbow-me/rainbowkit": "^1.3.4",
     "@t3-oss/env-nextjs": "^0.7.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

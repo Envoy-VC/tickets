@@ -2,26 +2,12 @@
 
 import React from 'react';
 
-import {
-  DynamicContextProvider,
-  DynamicWagmiConnector,
-  MagicWalletConnectors,
-  EthereumWalletConnectors,
-} from '~/lib/dynamic';
+import { WagmiConfig } from 'wagmi';
 
-import { env } from '~/env';
+import { config } from '~/lib/config';
 
 const Web3Provider = ({ children }: React.PropsWithChildren) => {
-  return (
-    <DynamicContextProvider
-      settings={{
-        environmentId: env.NEXT_PUBLIC_DYNAMIC_ID,
-        walletConnectors: [EthereumWalletConnectors, MagicWalletConnectors],
-      }}
-    >
-      <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
-    </DynamicContextProvider>
-  );
+  return <WagmiConfig config={config}>{children}</WagmiConfig>;
 };
 
 export default Web3Provider;
