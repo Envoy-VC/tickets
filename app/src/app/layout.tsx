@@ -5,6 +5,8 @@ import { Web3Provider } from '~/providers';
 import RainbowWrapper from '~/providers/web3/rainbow';
 import Image from 'next/image';
 
+import { Toaster } from '~/ui/sonner';
+
 import BGImage from '../styles/bg.avif';
 import Navbar from './components/navbar';
 
@@ -22,9 +24,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <Web3Provider>
-        <body
-          className={`font-sans ${GeistSans.variable} relative select-none`}
-        >
+        <body className={`${GeistSans.variable} relative select-none`}>
           <RainbowWrapper>
             <main className='absolute top-0 w-full'>
               <Navbar />
@@ -33,11 +33,12 @@ export default function RootLayout({
             <Image
               alt='Bg'
               src={BGImage.src}
-              className='h-full max-h-[100dvh] w-full'
+              className='h-[100dvh] w-full'
               width={100}
               height={100}
             />
           </RainbowWrapper>
+          <Toaster />
         </body>
       </Web3Provider>
     </html>

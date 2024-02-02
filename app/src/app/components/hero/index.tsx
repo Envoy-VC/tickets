@@ -24,12 +24,20 @@ const Hero = () => {
         </span>
         <div className='flex flex-col items-center gap-4 xl:items-start'>
           <Countdown />
-          <Button variant='cta' size='cta' asChild className='group'>
-            <Link href='/buy-tickets' className=''>
-              Get your passes{' '}
-              <FaArrowRightLong className='ml-3 transition-all duration-300 ease-out group-hover:translate-x-2' />
-            </Link>
-          </Button>
+          <div className='flex flex-col gap-3'>
+            <Button variant='cta' size='cta' asChild className='group'>
+              <Link href='/buy-tickets' className=''>
+                Get your passes{' '}
+                <FaArrowRightLong className='ml-3 transition-all duration-300 ease-out group-hover:translate-x-2' />
+              </Link>
+            </Button>
+            <span className='ml-3 text-sm text-slate-600'>
+              Already have a ticket?{' '}
+              <Link href='/scan'>
+                <span className='font-medium underline'>Scan it here</span>
+              </Link>
+            </span>
+          </div>
         </div>
       </div>
       <div className='flex w-full basis-2/5 items-center justify-center pb-12'>
@@ -38,8 +46,7 @@ const Hero = () => {
           alt='Ticket'
           width={400}
           height={400}
-          objectFit='contain'
-          className='rotate-3d max-w-[256px] sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg'
+          className='rotate-3d max-w-[256px] object-cover sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg'
         />
       </div>
     </div>

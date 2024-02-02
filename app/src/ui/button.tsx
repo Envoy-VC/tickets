@@ -21,6 +21,7 @@ const buttonVariants = cva(
           'hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50',
         link: 'text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50',
         cta: 'cta-bg text-lg leading-[1.4] md:text-lg lg:text-xl p-4 uppercase text-neutral-50 hover:opacity-90 duration-500 ease-in-out transition-all',
+        upi: 'bg-[#1844A0] text-neutral-900 hover:bg-[#1844A0/90]',
       },
       size: {
         default: 'h-10 px-4 py-2',
