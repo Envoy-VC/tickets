@@ -9,14 +9,25 @@ import { Button } from '~/ui/button';
 import { CONTRACT_ID } from '~/lib/contract';
 
 import { MdPayments } from 'react-icons/md';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 import { env } from '~/env';
 
 const CardPayments = () => {
   const { address } = useAccount();
+  const [mounted, setMounted] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+    return () => {
+      setMounted(false);
+    };
+  }, []);
 
   const onPayWithUPI = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch('/api/create-order', {
         method: 'POST',
         headers: {
@@ -50,9 +61,12 @@ const CardPayments = () => {
       );
       formData.append(
         'callback_url',
-        'http://localhost:3000/api/verify-payment'
+        `${env.NEXT_PUBLIC_BASE_PATH}/api/verify-payment`
       );
-      formData.append('cancel_url', 'http://localhost:3000/buy-tickets');
+      formData.append(
+        'cancel_url',
+        `${env.NEXT_PUBLIC_BASE_PATH}/api/verify-payment`
+      );
 
       const form = document.createElement('form');
       form.method = 'POST';
@@ -74,55 +88,63 @@ const CardPayments = () => {
       document.body.removeChild(form);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
-  if (address) {
-    return (
-      <div className='flex flex-col gap-4 py-5'>
-        <Button
-          className='flex flex-row items-center gap-4 text-white'
-          variant='upi'
-          onClick={onPayWithUPI}
-        >
-          <MdPayments className='text-2xl text-white' />
-          Pay with UPI
-        </Button>
+  if (mounted) {
+    if (address)
+      return (
+        <div className='flex flex-col gap-4 py-5'>
+          <Button
+            className='flex flex-row items-center gap-4 text-white'
+            variant='upi'
+            onClick={onPayWithUPI}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <AiOutlineLoading className='animate-spin text-xl' />
+            ) : (
+              <MdPayments className='text-2xl text-white' />
+            )}
+            Pay with UPI
+          </Button>
 
-        <div className='flex flex-row items-center gap-3'>
-          <div className='w-full border-b-[1px] border-neutral-300' />
-          <span className='font-semibold text-neutral-400'>OR</span>
-          <div className='w-full border-b-[1px] border-neutral-300' />
-        </div>
+          <div className='flex flex-row items-center gap-3'>
+            <div className='w-full border-b-[1px] border-neutral-300' />
+            <span className='font-semibold text-neutral-400'>OR</span>
+            <div className='w-full border-b-[1px] border-neutral-300' />
+          </div>
 
-        <div className='rounded-2xl bg-gray-50 p-4'>
-          <CheckoutWithCard
-            clientId={env.NEXT_PUBLIC_TW_ID}
-            configs={{
-              contractId: CONTRACT_ID,
-              walletAddress: address,
-              quantity: 1,
+          <div className='rounded-2xl bg-gray-50 p-4'>
+            <CheckoutWithCard
+              clientId={env.NEXT_PUBLIC_TW_ID}
+              configs={{
+                contractId: CONTRACT_ID,
+                walletAddress: address,
+                quantity: 1,
 
-              mintMethod: {
-                name: 'mint',
-                args: {
-                  to: '$WALLET',
+                mintMethod: {
+                  name: 'mint',
+                  args: {
+                    to: '$WALLET',
+                  },
+                  payment: {
+                    value: '0.01 * $QUANTITY',
+                    currency: 'MATIC',
+                  },
                 },
-                payment: {
-                  value: '0.01 * $QUANTITY',
-                  currency: 'MATIC',
-                },
-              },
-            }}
-            options={{
-              colorPrimary: '#A457E7',
-            }}
-            onPaymentSuccess={(result) => {
-              console.log('Payment successful:', result);
-            }}
-          />
+              }}
+              options={{
+                colorPrimary: '#A457E7',
+              }}
+              onPaymentSuccess={(result) => {
+                console.log('Payment successful:', result);
+              }}
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
   } else {
     return <div>Connect Wallet</div>;
   }

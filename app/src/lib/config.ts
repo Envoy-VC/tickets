@@ -51,6 +51,11 @@ const connectors = connectorsForWallets([
     groupName: 'Recommended',
     wallets: [rainbowMagicConnector({ chains })],
   },
+  ...getDefaultWallets({
+    appName: 'Tickets',
+    chains,
+    projectId: env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+  }).wallets,
 ]);
 
 export const config = createConfig({

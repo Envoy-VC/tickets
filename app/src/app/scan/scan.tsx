@@ -14,7 +14,7 @@ import { ABI } from '~/lib/contract';
 
 const QRWrapper = ({ children }: React.PropsWithChildren) => {
   return (
-    <div className='hero-bg aspect-square w-full max-w-sm rounded-xl border-[1px] p-1'>
+    <div className='hero-bg aspect-square w-full max-w-xs rounded-xl border-[1px] p-1'>
       <div className='h-full w-full rounded-lg bg-gray-50'>{children}</div>
     </div>
   );
