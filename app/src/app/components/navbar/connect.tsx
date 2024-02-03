@@ -1,17 +1,22 @@
 'use client';
 
 import React from 'react';
-import { ConnectButton as RainbowConnectButton } from '@rainbow-me/rainbowkit';
-
+import { ConnectWallet, lightTheme } from '@thirdweb-dev/react';
 const ConnectButton = () => {
   return (
-    <RainbowConnectButton
-      label='Sign in'
-      showBalance={false}
-      accountStatus={{
-        smallScreen: 'avatar',
-        largeScreen: 'full',
-      }}
+    <ConnectWallet
+      theme={lightTheme({
+        colors: {
+          accentText: '#A256E5',
+          accentButtonBg: '#A256E5',
+        },
+      })}
+      btnTitle='Sign-in'
+      modalTitle={'Sign-in'}
+      switchToActiveChain={true}
+      modalSize={'compact'}
+      welcomeScreen={{}}
+      modalTitleIconUrl={''}
     />
   );
 };

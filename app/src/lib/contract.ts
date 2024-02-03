@@ -1,5 +1,5 @@
-export const CONTRACT_ADDRESS = '0x591471910323013e087CCeFc28A0718B9bC5D731';
-export const CONTRACT_ID = 'ea3b7563-2afc-4488-b84b-f8cda9469e19';
+export const CONTRACT_ADDRESS = '0x20E489764D0ae8f087e677AcdBe1aE6f4647b801';
+export const CONTRACT_ID = '41576502-5345-4a9d-b1f8-4ee3c479f855';
 
 export const ABI = [
   {
@@ -587,6 +587,19 @@ export const ABI = [
   },
   {
     type: 'function',
+    name: 'safeMint',
+    inputs: [
+      {
+        type: 'address',
+        name: 'to',
+        internalType: 'address',
+      },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     name: 'safeTransferFrom',
     inputs: [
       {
@@ -837,4 +850,4 @@ export const ABI = [
     outputs: [],
     stateMutability: 'nonpayable',
   },
-] as const;
+];

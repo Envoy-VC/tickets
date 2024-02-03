@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { redirect, RedirectType } from 'next/navigation';
 
+import { Mumbai } from '@thirdweb-dev/chains';
+
+import { ThirdwebSDK } from '@thirdweb-dev/sdk';
+
 import { env } from '~/env';
+import { ABI, CONTRACT_ADDRESS } from '~/lib/contract';
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -19,7 +25,11 @@ export async function POST(req: Request) {
   });
 
   const paymentDetails = await instance.payments.fetch(razorpay_payment_id);
-  console.log('paymentDetails', paymentDetails);
+  const address = paymentDetails.notes.address;
+
+  if (!address) {
+    redirect('/buy-tickets', RedirectType.push);
+  }
 
   const text = `${paymentDetails.order_id}|${razorpay_payment_id}`;
   const generatedSignature = crypto
@@ -27,9 +37,22 @@ export async function POST(req: Request) {
     .update(text)
     .digest('hex');
 
-  if (generatedSignature !== razorpay_signature) {
-    redirect('/buy-tickets', RedirectType.push);
-  } else {
-    redirect('/buy-tickets', RedirectType.push);
+  const success = generatedSignature === razorpay_signature;
+
+  if (!success) {
+    redirect('/buy-tickets/callback?success=false', RedirectType.push);
   }
+
+  const sdk = ThirdwebSDK.fromPrivateKey(env.PK, Mumbai, {
+    secretKey: env.THIRDWEB_SECRET_KEY,
+  });
+
+  const contract = await sdk.getContract(CONTRACT_ADDRESS, ABI);
+
+  const tx = await contract.call('safeMint', [address]).catch((err) => {
+    console.log('Error: ', err);
+    redirect('/buy-tickets/callback?success=false', RedirectType.push);
+  });
+  console.log('Receipt: ', tx);
+  redirect('/buy-tickets/callback?success=true', RedirectType.push);
 }

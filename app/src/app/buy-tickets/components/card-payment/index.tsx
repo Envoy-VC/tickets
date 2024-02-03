@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAccount } from 'wagmi';
-
+import { useAddress } from '@thirdweb-dev/react';
 import { CheckoutWithCard } from '@thirdweb-dev/react';
 import { Button } from '~/ui/button';
 
@@ -12,9 +11,10 @@ import { MdPayments } from 'react-icons/md';
 import { AiOutlineLoading } from 'react-icons/ai';
 
 import { env } from '~/env';
+import { NoWallet } from '~/app/components';
 
 const CardPayments = () => {
-  const { address } = useAccount();
+  const address = useAddress();
   const [mounted, setMounted] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -27,6 +27,7 @@ const CardPayments = () => {
 
   const onPayWithUPI = async () => {
     try {
+      if (!address) return;
       setIsLoading(true);
       const res = await fetch('/api/create-order', {
         method: 'POST',
@@ -34,7 +35,7 @@ const CardPayments = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: 100,
+          amount: 39900,
         }),
       });
 
@@ -43,12 +44,10 @@ const CardPayments = () => {
         order_id: string;
       };
 
-      console.log(data);
-
       if (!data.success) return;
       const formData = new FormData();
       formData.append('key_id', env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
-      formData.append('amount', '100');
+      formData.append('amount', '39900');
       formData.append('order_id', data.order_id);
       formData.append('name', 'Tech Conclave NIT Agartala');
       formData.append(
@@ -59,6 +58,10 @@ const CardPayments = () => {
         'image',
         'https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.jpg'
       );
+      formData.append('notes[address]', address);
+      formData.append('prefill[name]', 'Tech Conclave NIT Agartala');
+      formData.append('prefill[contact]', '9876543210');
+      formData.append('prefill[email]', 'vedantchainani1084@gmail.com');
       formData.append(
         'callback_url',
         `${env.NEXT_PUBLIC_BASE_PATH}/api/verify-payment`
@@ -145,8 +148,9 @@ const CardPayments = () => {
           </div>
         </div>
       );
+    else return <NoWallet />;
   } else {
-    return <div>Connect Wallet</div>;
+    return null;
   }
 };
 

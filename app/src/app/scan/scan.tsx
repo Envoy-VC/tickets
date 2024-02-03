@@ -1,27 +1,44 @@
 'use client';
 
 import React from 'react';
-import { useAccount } from 'wagmi';
-import { readContract } from '@wagmi/core';
-
+import { useAddress, useSDK } from '@thirdweb-dev/react';
 import { Button } from '~/ui/button';
 import { QrScanner } from '@yudiel/react-qr-scanner';
 
 import { toast } from 'sonner';
 
-import { AiOutlineLoading } from 'react-icons/ai';
-import { ABI } from '~/lib/contract';
+import { CONTRACT_ADDRESS } from '~/lib/contract';
 
-const QRWrapper = ({ children }: React.PropsWithChildren) => {
+import { AiOutlineLoading } from 'react-icons/ai';
+import { FaRegCircleCheck, FaRegCircleXmark } from 'react-icons/fa6';
+
+import { ABI } from '~/lib/contract';
+import type { BigNumber } from 'ethers';
+
+const QRWrapper = ({
+  children,
+  success,
+}: React.PropsWithChildren & { success?: boolean }) => {
   return (
     <div className='hero-bg aspect-square w-full max-w-xs rounded-xl border-[1px] p-1'>
-      <div className='h-full w-full rounded-lg bg-gray-50'>{children}</div>
+      <div className='h-full w-full rounded-lg bg-gray-50'>
+        <div className='flex h-full flex-col items-center justify-center gap-4'>
+          {success && success === true && (
+            <FaRegCircleCheck className='text-9xl text-green-500' />
+          )}
+          {success !== undefined && success === false && (
+            <FaRegCircleXmark className='text-9xl text-red-500' />
+          )}
+          {children}
+        </div>
+      </div>
     </div>
   );
 };
 
 const ScanTicket = () => {
-  const { address } = useAccount();
+  const address = useAddress();
+  const sdk = useSDK();
   const [mounted, setMounted] = React.useState(false);
   const [isScanning, setIsScanning] = React.useState<boolean>(false);
   const [isVerifying, setIsVerifying] = React.useState<boolean>(false);
@@ -36,6 +53,7 @@ const ScanTicket = () => {
 
   const verify = async (data: string) => {
     if (!address) return;
+    if (!sdk) return;
     try {
       setResult(null);
       setIsVerifying(true);
@@ -43,14 +61,20 @@ const ScanTicket = () => {
         contractAddress: string;
       };
 
-      const res = await readContract({
-        address: contractAddress as `0x${string}`,
-        abi: ABI,
-        functionName: 'balanceOf',
-        args: [address],
-      });
+      if (contractAddress !== CONTRACT_ADDRESS) {
+        toast.error('Invalid QR Code');
+        setResult('Invalid QR Code');
+        return;
+      }
 
-      if (BigInt(res) > BigInt(0)) {
+      const contract = await sdk.getContract(CONTRACT_ADDRESS, ABI);
+      const balance = (
+        (await contract.call('balanceOf', [address])) as BigNumber
+      ).toNumber();
+
+      console.log(balance);
+
+      if (balance > 0) {
         toast.success('Ticket verified');
         setResult('Ticket verified');
       } else {
@@ -82,17 +106,13 @@ const ScanTicket = () => {
     <div className='flex w-full flex-col items-center justify-center gap-4'>
       {!isScanning ? (
         <QRWrapper>
-          <div className='flex h-full w-full items-center justify-center'>
-            <p className='text-center text-lg font-medium'>
-              Scan a ticket to verify
-            </p>
-          </div>
+          <p className='text-center text-lg font-medium'>
+            Scan a ticket to verify
+          </p>
         </QRWrapper>
       ) : isVerifying ? (
         <QRWrapper>
-          <div className='flex h-full w-full items-center justify-center'>
-            <AiOutlineLoading className='animate-spin text-2xl text-slate-700' />
-          </div>
+          <AiOutlineLoading className='animate-spin text-2xl text-slate-700' />
         </QRWrapper>
       ) : result === null ? (
         <QRWrapper>
@@ -106,10 +126,8 @@ const ScanTicket = () => {
           />
         </QRWrapper>
       ) : (
-        <QRWrapper>
-          <div className='flex h-full w-full items-center justify-center'>
-            <p className='text-center text-lg font-medium'>{result}</p>
-          </div>
+        <QRWrapper success={result === 'Ticket verified'}>
+          <p className='text-center text-lg font-medium'>{result}</p>
         </QRWrapper>
       )}
 
