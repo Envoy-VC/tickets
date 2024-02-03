@@ -41,6 +41,12 @@ contract Ticket is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Pausable, O
         _setTokenURI(tokenId, URI);
     }
 
+    function safeMint(address to) public onlyOwner {
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, URI);
+    }
+
     // Owner Actions
     function updatePrice(uint256 newPrice) public onlyOwner {
         PRICE_PER_TOKEN = newPrice;
