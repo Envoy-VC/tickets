@@ -3,9 +3,9 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { redirect, RedirectType } from 'next/navigation';
 
-import { Mumbai } from '@thirdweb-dev/chains';
-
-import { ThirdwebSDK } from '@thirdweb-dev/sdk';
+import { createWalletClient, http, publicActions } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { polygonMumbai } from 'viem/chains';
 
 import { env } from '~/env';
 import { ABI, CONTRACT_ADDRESS } from '~/lib/contract';
@@ -43,16 +43,25 @@ export async function POST(req: Request) {
     redirect('/buy-tickets/callback?success=false', RedirectType.push);
   }
 
-  const sdk = ThirdwebSDK.fromPrivateKey(env.PK, Mumbai, {
-    secretKey: env.THIRDWEB_SECRET_KEY,
-  });
+  const client = createWalletClient({
+    chain: polygonMumbai,
+    transport: http(env.NEXT_PUBLIC_ALCHEMY_RPC_URL),
+  }).extend(publicActions);
 
-  const contract = await sdk.getContract(CONTRACT_ADDRESS, ABI);
+  const account = privateKeyToAccount(env.PK as `0x${string}`);
 
-  const tx = await contract.call('safeMint', [address]).catch((err) => {
-    console.log('Error: ', err);
-    redirect('/buy-tickets/callback?success=false', RedirectType.push);
-  });
-  console.log('Receipt: ', tx);
-  redirect('/buy-tickets/callback?success=true', RedirectType.push);
+  await client
+    .writeContract({
+      address: CONTRACT_ADDRESS,
+      abi: ABI,
+      functionName: 'safeMint',
+      args: [address],
+      account,
+    })
+    .catch(() => {
+      redirect('/buy-tickets/callback?success=false', RedirectType.push);
+    })
+    .then(() => {
+      redirect('/buy-tickets/callback?success=true', RedirectType.push);
+    });
 }

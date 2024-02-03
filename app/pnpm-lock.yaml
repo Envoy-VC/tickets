@@ -28,7 +28,7 @@ dependencies:
     version: 4.0.33(ethers@5.7.2)(typescript@5.3.3)
   '@wagmi/core':
     specifier: v1
-    version: 1.4.13(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@2.7.2)(zod@3.22.4)
+    version: 1.4.13(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@1.21.4)(zod@3.22.4)
   '@yudiel/react-qr-scanner':
     specifier: ^1.2.6
     version: 1.2.6(react-dom@18.2.0)(react@18.2.0)
@@ -77,6 +77,9 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.1)
+  viem:
+    specifier: v1
+    version: 1.21.4(typescript@5.3.3)(zod@3.22.4)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -3465,7 +3468,7 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@wagmi/connectors@3.1.11(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@2.7.2)(zod@3.22.4):
+  /@wagmi/connectors@3.1.11(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@1.21.4)(zod@3.22.4):
     resolution: {integrity: sha512-wzxp9f9PtSUFjDUP/QDjc1t7HON4D8wrVKsw35ejdO8hToDpx1gU9lwH/47Zo/1zExGezQc392sjoHSszYd7OA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -3484,7 +3487,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.7.2(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.4(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -3507,7 +3510,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.13(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@2.7.2)(zod@3.22.4):
+  /@wagmi/core@1.4.13(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@1.21.4)(zod@3.22.4):
     resolution: {integrity: sha512-ytMCvXbBOgfDu9Qw67279wq/jNEe7EZLjLyekX7ROnvHRADqFr3lwZI6ih41UmtRZAmXAx8Ghyuqy154EjB5mQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -3516,11 +3519,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.11(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@2.7.2)(zod@3.22.4)
+      '@wagmi/connectors': 3.1.11(@types/react@18.2.51)(react@18.2.0)(typescript@5.3.3)(viem@1.21.4)(zod@3.22.4)
       abitype: 0.8.7(typescript@5.3.3)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 2.7.2(typescript@5.3.3)(zod@3.22.4)
+      viem: 1.21.4(typescript@5.3.3)(zod@3.22.4)
       zustand: 4.4.1(@types/react@18.2.51)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -4129,21 +4132,6 @@ packages:
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.19.1
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
-    dependencies:
-      typescript: 5.3.3
-      zod: 3.22.4
-    dev: false
-
-  /abitype@1.0.0(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-NMeMah//6bJ56H5XRj8QCV4AwuW6hB6zqz2LnhhLdcWVQOsXki6/Pn3APeqxCma62nXIcmZWdu1DlHWS74umVQ==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.22.0
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -10481,29 +10469,6 @@ packages:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.3.3)(zod@3.22.4)
-      isows: 1.0.3(ws@8.13.0)
-      typescript: 5.3.3
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /viem@2.7.2(typescript@5.3.3)(zod@3.22.4):
-    resolution: {integrity: sha512-uRoD9ACARMrQG24rmXAqSJh0Sph5RkE6QP7FspmIs1XtuJIT8eS7B57f03oAUi2h/v564qmu9wv1mK/xB+XghA==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.10.0
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@scure/bip32': 1.3.2
-      '@scure/bip39': 1.2.1
-      abitype: 1.0.0(typescript@5.3.3)(zod@3.22.4)
       isows: 1.0.3(ws@8.13.0)
       typescript: 5.3.3
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
