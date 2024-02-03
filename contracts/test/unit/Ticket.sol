@@ -43,14 +43,12 @@ contract TicketTest is Test {
 
     function test_safeMint() public {
         assertEq(address(ticket).balance, 0);
-        assertEq(ticket.balanceOf(user.addr), 0);
 
         vm.startPrank(owner.addr);
-        ticket.mint{value: ticket.PRICE_PER_TOKEN()}(user.addr);
+        ticket.safeMint(user.addr);
         vm.stopPrank();
 
         assertEq(ticket.balanceOf(user.addr), 1);
-        assertEq(address(ticket).balance, 1 ether);
     }
 
     function test_updatePrice() public {

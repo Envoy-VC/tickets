@@ -33,14 +33,11 @@ contract TicketFuzzTest is Test {
     }
 
     function testFuzz_safeMint(Vm.Wallet memory wallet) external {
-        vm.deal(wallet.addr, 100 ether);
-
         vm.startPrank(owner.addr);
-        ticket.mint{value: ticket.PRICE_PER_TOKEN()}(wallet.addr);
+        ticket.safeMint(wallet.addr);
         vm.stopPrank();
 
         assertEq(ticket.balanceOf(wallet.addr), 1);
-        assertEq(address(ticket).balance, 1 ether);
     }
 
     function testFuzz_updatePrice(uint256 randomPrice) external {
